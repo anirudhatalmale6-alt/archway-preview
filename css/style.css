@@ -144,6 +144,49 @@ p:last-child{margin-bottom:0}
 .burger{display:none;padding:.6rem;margin-right:-.6rem}
 .burger svg{width:24px;height:24px;display:block}
 
+/* ---------- nav dropdown ---------- */
+.nav__group{position:relative;display:flex;align-items:center}
+.nav__toggle{
+  display:flex;align-items:center;gap:.4rem;padding-block:.35rem;
+  font-size:.73rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ivory);transition:color .25s var(--ease);
+}
+.nav__toggle:hover,.nav__toggle[aria-expanded=true],
+.nav__toggle[aria-current=page]{color:var(--gold-bright)}
+.nav__caret{width:12px;height:12px;flex:none;transition:transform .28s var(--ease)}
+.nav__toggle[aria-expanded=true] .nav__caret{transform:rotate(180deg)}
+.nav__menu{
+  position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  margin-top:.85rem;min-width:15.5rem;
+  background:#0b0b0bfa;backdrop-filter:blur(14px);
+  border:1px solid var(--border);
+  padding:.4rem;
+  display:grid;
+}
+/* the header is sticky at z-index 100; the panel must clear the page under it */
+.nav__menu a{
+  padding:.75rem .95rem;font-size:.72rem;letter-spacing:.14em;
+  white-space:nowrap;transition:background .22s var(--ease),color .22s var(--ease);
+}
+.nav__menu a::after{display:none}
+.nav__menu a:hover,.nav__menu a:focus-visible,.nav__menu a[aria-current=page]{
+  background:var(--surface-2);color:var(--gold-bright);
+}
+/* "Restaurants" is the longest label on the bar; without this the nav, the
+   wordmark and the Reserve button collide between 901px and about 1100px */
+@media (max-width:1140px){
+  .nav{gap:1.4rem}
+  .nav a,.nav__toggle{font-size:.68rem;letter-spacing:.14em}
+  .header .btn--sm{padding:.7rem 1rem;letter-spacing:.12em}
+}
+
+.drawer__label{
+  font-family:var(--sans);font-size:.68rem;font-weight:800;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold);
+  margin:1.5rem 0 .2rem;
+}
+.drawer a.drawer__sub{font-size:1.45rem;padding-left:1rem}
+
 .drawer{
   position:fixed;inset:var(--header-h) 0 0;z-index:99;
   background:#050505f7;backdrop-filter:blur(18px);
@@ -151,7 +194,9 @@ p:last-child{margin-bottom:0}
   display:flex;flex-direction:column;gap:.35rem;
   overflow-y:auto;
 }
-.drawer a{
+/* :not(.btn) matters — .drawer a outranks .btn on specificity, so without it
+   the Reserve button renders as 2rem serif and wraps across two lines */
+.drawer a:not(.btn){
   font-family:var(--serif);font-size:2rem;
   padding-block:.65rem;border-bottom:1px solid var(--border-soft);
 }
@@ -190,6 +235,53 @@ p:last-child{margin-bottom:0}
 /* a page hero already carries its own bottom padding; stacking a full section
    gap on top of it left a dead band of empty black */
 .hero--page+.section{padding-top:clamp(2.75rem,5.5vw,4.25rem)}
+
+/* ---------- restaurant page hero ---------- */
+.hero--rest .hero__inner{max-width:56rem}
+.hero--rest .hero__media img{opacity:.56}
+/* each mark keeps its own proportions — see .profile__logo */
+.rhero__logo{width:auto;object-fit:contain;object-position:left center;margin-bottom:1.6rem}
+.rhero__logo--jc{height:62px}
+.rhero__logo--robata{height:150px}
+@media (max-width:600px){
+  .rhero__logo--jc{height:48px}
+  .rhero__logo--robata{height:112px}
+}
+
+/* ---------- menu cards (restaurant pages) ---------- */
+/* Two columns, not the shared grid--2: at a 320px minimum, four menu cards
+   auto-fit into three columns and leave one orphan on its own row. */
+.grid--menus{grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr))}
+/* Robata has a single menu; left to itself it stretches the full 1220px */
+.grid--menus--one{max-width:640px}
+.mcard{
+  background:var(--background);
+  border:1px solid var(--border-soft);
+  padding:clamp(1.5rem,2.8vw,2.2rem);
+  display:flex;flex-direction:column;gap:.9rem;
+  transition:border-color .3s var(--ease),transform .3s var(--ease);
+}
+.mcard:hover,.mcard:focus-visible{border-color:var(--gold);transform:translateY(-3px)}
+.mcard__head{display:flex;flex-wrap:wrap;gap:.6rem 1.2rem;justify-content:space-between;align-items:baseline}
+.mcard__head h3{font-size:clamp(1.35rem,2.4vw,1.85rem)}
+.mcard__price{
+  font-family:var(--sans);font-size:.72rem;font-weight:800;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold-bright);flex:none;
+  font-variant-numeric:lining-nums tabular-nums;
+}
+.mcard p{color:var(--muted);margin:0;font-size:.97rem}
+.mcard__meta{
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  font-variant-numeric:lining-nums tabular-nums;
+}
+.mcard .textlink{margin-top:auto;align-self:flex-start}
+
+/* ---------- gallery ---------- */
+.gallery{display:grid;gap:clamp(1rem,2vw,1.6rem);
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.shot{margin:0}
+.shot img{width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--border-soft)}
+.shot figcaption{margin-top:.75rem;color:var(--muted);font-size:.87rem}
 
 /* ---------- split ---------- */
 .split{

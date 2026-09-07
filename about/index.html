@@ -30,14 +30,14 @@
 <a class="brand" href="/archway-preview/" aria-label="Archway Hospitality Group — home">
   <img src="/archway-preview/img/archway-logo-light.png" alt="Archway Hospitality Group" width="330" height="34">
 </a>
-<nav class="nav" aria-label="Primary"><a href="/archway-preview/about/" aria-current=page>About</a><a href="/archway-preview/menu/">Menu</a><a href="/archway-preview/careers/">Careers</a><a href="/archway-preview/contact/">Contact</a></nav>
+<nav class="nav" aria-label="Primary"><a href="/archway-preview/about/" aria-current=page>About</a><div class="nav__group" data-navgroup><button class="nav__toggle" type="button" data-navtoggle aria-expanded="false" aria-controls="navmenu-1">Restaurants<svg class="nav__caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="nav__menu" id="navmenu-1" data-navmenu hidden><a href="/archway-preview/restaurants/jc-hwangs/">J.C. Hwang’s Albany</a><a href="/archway-preview/restaurants/robata/">Robata Albany</a></div></div><a href="/archway-preview/menu/">Menu</a><a href="/archway-preview/careers/">Careers</a><a href="/archway-preview/contact/">Contact</a></nav>
 <a class="btn btn--sm" href="/archway-preview/menu/">Reserve a table</a>
 <button class="burger" type="button" data-burger aria-expanded="false"
         aria-controls="drawer" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
 </div></div>
 </header>
 <div class="drawer" id="drawer" data-drawer hidden>
-<a href="/archway-preview/about/" aria-current=page>About</a><a href="/archway-preview/menu/">Menu</a><a href="/archway-preview/careers/">Careers</a><a href="/archway-preview/contact/">Contact</a>
+<a href="/archway-preview/about/" aria-current=page>About</a><p class="drawer__label">Restaurants</p><a class="drawer__sub" href="/archway-preview/restaurants/jc-hwangs/">J.C. Hwang’s Albany</a><a class="drawer__sub" href="/archway-preview/restaurants/robata/">Robata Albany</a><a href="/archway-preview/menu/">Menu</a><a href="/archway-preview/careers/">Careers</a><a href="/archway-preview/contact/">Contact</a>
 <a class="btn" href="/archway-preview/menu/">Reserve a table</a>
 </div>
 <main id="main"><section class="hero hero--page">
@@ -71,8 +71,8 @@
   <p class="muted" style="margin-top:1.1rem">Located at 30 South Pearl Street / 45 Beaver Street, J.C. Hwang’s Albany brings the rich heritage of imperial classic Sichuan cuisine to the table. Centuries-old culinary traditions meet modern hospitality in an exceptional dining experience for every time of day.</p>
   <ul class="profile__points"><li><span></span><div><b>All-Day Dining:</b> Curated all-you-can-eat menus for breakfast, lunch, and dinner</div></li><li><span></span><div><b>Sichuan Heritage:</b> Authentic, masterfully balanced flavors inspired by imperial classics</div></li><li><span></span><div><b>Chef’s Table:</b> Exclusive fine dining through the 9-Bowl Tasting Experience</div></li></ul>
   <div class="btn-row">
+    <a class="btn btn--solid btn--sm" href="/archway-preview/restaurants/jc-hwangs/">Visit the restaurant</a>
     <a class="btn btn--ghost btn--sm" href="/archway-preview/menu/?restaurant=jc">View menu</a>
-    <a class="btn btn--sm" href="/archway-preview/contact/?subject=Reservations">Reserve</a>
   </div>
 </div></div><div class="profile reveal"><div>
   <img class="profile__logo profile__logo--robata" src="/archway-preview/img/robata-logo-light.png"
@@ -81,11 +81,11 @@
   <p class="muted" style="margin-top:1.1rem">Located on the patio at 30 South Pearl Street / 45 Beaver Street, Robata Albany brings an authentic Japanese robatayaki experience into a vibrant outdoor setting. Charcoal-grill cooking meets a lively, social atmosphere made for gathering with friends and family.</p>
   <ul class="profile__points"><li><span></span><div><b>Interactive Grilling:</b> Every table features a self-serve outdoor grill</div></li><li><span></span><div><b>Massive Selection:</b> More than 80 meats, seafood, vegetables, sides, and desserts</div></li><li><span></span><div><b>All-You-Can-Eat:</b> Grill and enjoy as much as you like at your own pace</div></li><li><span></span><div><b>Outdoor Atmosphere:</b> Designed for friends and families to share an evening together</div></li></ul>
   <div class="btn-row">
+    <a class="btn btn--solid btn--sm" href="/archway-preview/restaurants/robata/">Visit the restaurant</a>
     <a class="btn btn--ghost btn--sm" href="/archway-preview/menu/?restaurant=robata">View menu</a>
-    <a class="btn btn--sm" href="/archway-preview/contact/?subject=Reservations">Reserve</a>
   </div>
 </div><div class="split__media"><picture><source srcset="/archway-preview/img/robata-skewers.webp" type="image/webp"><img src="/archway-preview/img/robata-skewers.jpg" alt="Charcoal-grilled skewers at Robata Albany" loading="lazy" decoding=async></picture></div></div>
-</div></section></main><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Archway Hospitality Group", "legalName": "Archway Hospitality Group, Inc.", "url": "https://archwayhospitality.com", "logo": "https://archwayhospitality.com/img/archway-logo.png", "email": "contact@archwayhospitality.com", "description": "Archway Hospitality Group bridges rigorous craftsmanship and elevated hospitality in downtown Albany — home to J.C. Hwang’s Albany and Robata Albany.", "address": {"@type": "PostalAddress", "streetAddress": "30 South Pearl Street / 45 Beaver Street", "addressLocality": "Albany", "addressRegion": "NY", "postalCode": "12207", "addressCountry": "US"}}</script><script type="application/ld+json">{"@type": "Restaurant", "name": "J.C. Hwang’s Albany", "servesCuisine": "Sichuan", "url": "https://archwayhospitality.com/menu/?restaurant=jc", "image": "https://archwayhospitality.com/img/jc-hwangs-sichuan.jpg", "address": {"@type": "PostalAddress", "streetAddress": "30 South Pearl Street / 45 Beaver Street", "addressLocality": "Albany", "addressRegion": "NY", "postalCode": "12207", "addressCountry": "US"}, "parentOrganization": {"@type": "Organization", "name": "Archway Hospitality Group"}}</script><script type="application/ld+json">{"@type": "Restaurant", "name": "Robata Albany", "servesCuisine": "Japanese", "url": "https://archwayhospitality.com/menu/?restaurant=robata", "image": "https://archwayhospitality.com/img/robata-skewers.jpg", "address": {"@type": "PostalAddress", "streetAddress": "30 South Pearl Street / 45 Beaver Street", "addressLocality": "Albany", "addressRegion": "NY", "postalCode": "12207", "addressCountry": "US"}, "parentOrganization": {"@type": "Organization", "name": "Archway Hospitality Group"}}</script><footer class="footer">
+</div></section></main><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Archway Hospitality Group", "legalName": "Archway Hospitality Group, Inc.", "url": "https://archwayhospitality.com", "logo": "https://archwayhospitality.com/img/archway-logo.png", "email": "contact@archwayhospitality.com", "description": "Archway Hospitality Group bridges rigorous craftsmanship and elevated hospitality in downtown Albany — home to J.C. Hwang’s Albany and Robata Albany.", "address": {"@type": "PostalAddress", "streetAddress": "30 South Pearl Street / 45 Beaver Street", "addressLocality": "Albany", "addressRegion": "NY", "postalCode": "12207", "addressCountry": "US"}}</script><script type="application/ld+json">{"@type": "Restaurant", "name": "J.C. Hwang’s Albany", "servesCuisine": "Sichuan", "url": "https://archwayhospitality.com/restaurants/jc-hwangs/", "hasMenu": "https://archwayhospitality.com/menu/?restaurant=jc", "image": "https://archwayhospitality.com/img/jc-hwangs-sichuan.jpg", "address": {"@type": "PostalAddress", "streetAddress": "30 South Pearl Street / 45 Beaver Street", "addressLocality": "Albany", "addressRegion": "NY", "postalCode": "12207", "addressCountry": "US"}, "parentOrganization": {"@type": "Organization", "name": "Archway Hospitality Group"}}</script><script type="application/ld+json">{"@type": "Restaurant", "name": "Robata Albany", "servesCuisine": "Japanese", "url": "https://archwayhospitality.com/restaurants/robata/", "hasMenu": "https://archwayhospitality.com/menu/?restaurant=robata", "image": "https://archwayhospitality.com/img/robata-skewers.jpg", "address": {"@type": "PostalAddress", "streetAddress": "30 South Pearl Street / 45 Beaver Street", "addressLocality": "Albany", "addressRegion": "NY", "postalCode": "12207", "addressCountry": "US"}, "parentOrganization": {"@type": "Organization", "name": "Archway Hospitality Group"}}</script><footer class="footer">
 <div class="shell">
   <div class="footer__top">
     <div>
@@ -94,7 +94,11 @@
     </div>
     <div>
       <h2>Explore</h2>
-      <ul><li><a href="/archway-preview/about/">About</a></li><li><a href="/archway-preview/menu/">Menu</a></li><li><a href="/archway-preview/careers/">Careers</a></li></ul>
+      <ul><li><a href="/archway-preview/about/">About</a></li><li><a href="/archway-preview/menu/">Menu</a></li><li><a href="/archway-preview/careers/">Careers</a></li><li><a href="/archway-preview/contact/">Contact</a></li></ul>
+    </div>
+    <div>
+      <h2>Restaurants</h2>
+      <ul><li><a href="/archway-preview/restaurants/jc-hwangs/">J.C. Hwang’s Albany</a></li><li><a href="/archway-preview/restaurants/robata/">Robata Albany</a></li></ul>
     </div>
     <div>
       <h2>Visit &amp; connect</h2>

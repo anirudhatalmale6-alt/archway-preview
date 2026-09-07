@@ -36,6 +36,50 @@
     });
   })();
 
+  /* ---------- desktop nav dropdown ---------- */
+  (function () {
+    var groups = $$("[data-navgroup]");
+    if (!groups.length) return;
+
+    function close(g) {
+      $("[data-navmenu]", g).hidden = true;
+      $("[data-navtoggle]", g).setAttribute("aria-expanded", "false");
+    }
+    function open(g) {
+      groups.forEach(function (o) { if (o !== g) close(o); });
+      $("[data-navmenu]", g).hidden = false;
+      $("[data-navtoggle]", g).setAttribute("aria-expanded", "true");
+    }
+
+    groups.forEach(function (g) {
+      var toggle = $("[data-navtoggle]", g);
+      close(g);
+      toggle.addEventListener("click", function () {
+        if (toggle.getAttribute("aria-expanded") === "true") close(g); else open(g);
+      });
+      // Click only, deliberately. Opening on hover as well means the pointer
+      // move that precedes a click has already opened the panel, so the click
+      // itself closes it again — the button then looks broken to a mouse user
+      // while working for touch. One trigger, same behaviour everywhere.
+      // keyboard: leaving the group entirely closes it
+      g.addEventListener("focusout", function (ev) {
+        if (!g.contains(ev.relatedTarget)) close(g);
+      });
+    });
+
+    document.addEventListener("click", function (ev) {
+      groups.forEach(function (g) { if (!g.contains(ev.target)) close(g); });
+    });
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key !== "Escape") return;
+      groups.forEach(function (g) {
+        if ($("[data-navtoggle]", g).getAttribute("aria-expanded") === "true") {
+          close(g); $("[data-navtoggle]", g).focus();
+        }
+      });
+    });
+  })();
+
   /* ---------- menu page: restaurant + menu tabs ---------- */
   (function () {
     var root = $("[data-menus]");
@@ -76,14 +120,20 @@
     $$("[data-menu-tab]", menuTabRow).forEach(function (t) {
       t.addEventListener("click", function () {
         show(t.dataset.brand, t.dataset.menuTab);
+        history.replaceState(null, "", "?restaurant=" + t.dataset.brand +
+          "&menu=" + encodeURIComponent(t.dataset.menuTab));
       });
     });
 
-    // deep link: /menu/?restaurant=robata, as the previous site linked it
-    var want = new URLSearchParams(location.search).get("restaurant") || "";
-    want = want.replace("jc-hwangs", "jc");
+    // deep link: /menu/?restaurant=robata, as the previous site linked it, plus
+    // &menu=<name> so the restaurant pages can point at one specific menu
+    var q = new URLSearchParams(location.search);
+    var want = (q.get("restaurant") || "").replace("jc-hwangs", "jc");
     var brand = $("[data-brand-tab='" + want + "']", root) ? want : brandTabs[0].dataset.brandTab;
-    show(brand, firstMenuOf(brand));
+    var wantMenu = q.get("menu");
+    var hasMenu = wantMenu && $$("[data-menu-tab][data-brand='" + brand + "']", menuTabRow)
+      .some(function (t) { return t.dataset.menuTab === wantMenu; });
+    show(brand, hasMenu ? wantMenu : firstMenuOf(brand));
   })();
 
   /* ---------- collapsible menu sections (open by default) ---------- */
