@@ -239,6 +239,15 @@ p:last-child{margin-bottom:0}
 /* ---------- restaurant page hero ---------- */
 .hero--rest .hero__inner{max-width:56rem}
 .hero--rest .hero__media img{opacity:.56}
+/* A hero whose source is ALREADY a night scene does not need dimming — the
+   standard treatment turned the Robata rendering into an unreadable murk.
+   Keep the left column dark for the headline, let the room show on the right. */
+.hero--darksrc .hero__media img{opacity:.95;object-position:62% 52%}
+.hero--darksrc::after{
+  background:
+    linear-gradient(180deg,#05050599 0%,#05050526 45%,#050505 100%),
+    linear-gradient(90deg,#050505f2 0%,#050505c4 44%,#0505051a 100%);
+}
 /* each mark keeps its own proportions — see .profile__logo */
 .rhero__logo{width:auto;object-fit:contain;object-position:left center;margin-bottom:1.6rem}
 .rhero__logo--jc{height:62px}
