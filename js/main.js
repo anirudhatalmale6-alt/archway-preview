@@ -36,6 +36,56 @@
     });
   })();
 
+  /* ---------- hero slideshow ---------- */
+  (function () {
+    var root = $("[data-slides]");
+    if (!root) return;
+    var slides = $$("[data-slide]", root), dots = $$("[data-dot]", root);
+    if (slides.length < 2) return;
+    var i = 0, timer = null;
+    var STEP = 6000;
+
+    function show(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        s.classList.toggle("is-on", k === i);
+        s.setAttribute("aria-hidden", String(k !== i));
+      });
+      dots.forEach(function (d, k) {
+        if (k === i) d.setAttribute("aria-current", "true");
+        else d.removeAttribute("aria-current");
+      });
+    }
+    function start() { stop(); timer = setInterval(function () { show(i + 1); }, STEP); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+    dots.forEach(function (d, k) {
+      d.addEventListener("click", function () { show(k); start(); });
+    });
+    // don't advance under someone's cursor, or while the tab is in the background
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", start);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop(); else start();
+    });
+
+    if (window.matchMedia("(prefers-reduced-motion:reduce)").matches) { show(0); return; }
+    show(0); start();
+  })();
+
+  /* ---------- back to top ---------- */
+  (function () {
+    var btn = $("[data-totop]");
+    if (!btn) return;
+    function sync() { btn.classList.toggle("is-on", window.scrollY > window.innerHeight * 0.9); }
+    btn.addEventListener("click", function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    });
+    window.addEventListener("scroll", sync, { passive: true });
+    sync();
+  })();
+
   /* ---------- desktop nav dropdown ---------- */
   (function () {
     var groups = $$("[data-navgroup]");
@@ -110,11 +160,27 @@
       return t ? t.dataset.menuTab : null;
     }
 
+    // The switcher is sticky, so a tab can be clicked from anywhere down the
+    // page. Land the reader at the top of the menu they just chose rather than
+    // halfway into it at whatever offset they happened to be at.
+    function toPanelTop() {
+      var bar = $(".menubar");
+      var panel = $("[data-panel]:not([hidden])", root);
+      if (!panel || !bar) return;
+      var top = window.scrollY + panel.getBoundingClientRect().top
+                - bar.getBoundingClientRect().height - 84;
+      if (window.scrollY > top) {
+        var reduce = window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+        window.scrollTo({ top: Math.max(top, 0), behavior: reduce ? "auto" : "smooth" });
+      }
+    }
+
     brandTabs.forEach(function (b) {
       b.addEventListener("click", function () {
         var brand = b.dataset.brandTab;
         show(brand, firstMenuOf(brand));
         history.replaceState(null, "", "?restaurant=" + brand);
+        toPanelTop();
       });
     });
     $$("[data-menu-tab]", menuTabRow).forEach(function (t) {
@@ -122,6 +188,7 @@
         show(t.dataset.brand, t.dataset.menuTab);
         history.replaceState(null, "", "?restaurant=" + t.dataset.brand +
           "&menu=" + encodeURIComponent(t.dataset.menuTab));
+        toPanelTop();
       });
     });
 

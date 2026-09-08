@@ -211,6 +211,142 @@ p:last-child{margin-bottom:0}
   .drawer{display:none!important}
 }
 
+/* ---------- gold rule under a heading ---------- */
+.rule{display:block;width:76px;height:1px;background:var(--gold);margin:1.6rem 0 1.5rem;opacity:.85}
+.rule--center{margin-inline:auto}
+
+/* ---------- split hero with slideshow ---------- */
+/* Copy on the left over black, photography bleeding off the right edge. Text
+   sits on a solid panel rather than over the picture, so the headline is always
+   legible whichever slide is showing. */
+.hero--split{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:min(80vh,780px);
+  background:var(--background);
+  isolation:isolate;
+}
+.hero--split .hero__text{display:flex;align-items:center;padding-block:clamp(3.5rem,8vh,6rem)}
+.hero--split .hero__col{
+  width:100%;
+  padding-left:max(var(--gutter),calc((100vw - var(--shell))/2 + var(--gutter)));
+  padding-right:clamp(1.5rem,4vw,3.5rem);
+}
+.hero--split h1{font-size:clamp(2.5rem,4.6vw,4.4rem);margin:0}
+.hero--split h1 span{display:block}
+.hero--split h1 span+span{color:var(--gold-bright)}
+.hero--split .lede{margin-bottom:0}
+
+.hero__slides{position:relative;overflow:hidden;min-height:46vh}
+.slide{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.1s var(--ease)}
+.slide.is-on{opacity:1}
+.slide picture,.slide img{display:block;width:100%;height:100%;object-fit:cover}
+/* a soft seam so the photograph meets the black panel rather than butting it */
+.hero__slides::before{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,#050505 0%,#05050500 22%);
+}
+.slide__dots{
+  position:absolute;z-index:3;left:50%;bottom:1.4rem;transform:translateX(-50%);
+  display:flex;gap:.6rem;
+}
+.slide__dots button{
+  width:9px;height:9px;padding:0;border-radius:50%;
+  background:#ffffff59;border:0;transition:background .3s var(--ease),transform .3s var(--ease);
+}
+.slide__dots button[aria-current=true]{background:var(--gold-bright);transform:scale(1.25)}
+@media (max-width:900px){
+  .hero--split{grid-template-columns:1fr;min-height:0}
+  .hero--split .hero__col{padding-inline:var(--gutter)}
+  .hero__slides{min-height:56vw;order:-1}
+  .hero__slides::before{background:linear-gradient(0deg,#050505 0%,#05050500 42%)}
+}
+@media (prefers-reduced-motion:reduce){.slide{transition:none}}
+
+/* ---------- full-bleed band ---------- */
+.band{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;background:var(--surface)}
+.band+.band{border-top:1px solid var(--border-soft)}
+.band__media{position:relative;min-height:clamp(320px,42vw,560px)}
+.band__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.band__body{display:flex;align-items:center;padding-block:clamp(3rem,6vw,5.5rem)}
+.band__col{
+  width:100%;max-width:60ch;
+  padding-right:max(var(--gutter),calc((100vw - var(--shell))/2 + var(--gutter)));
+  padding-left:clamp(1.5rem,4vw,3.5rem);
+}
+/* flipped: media on the right, copy on the left */
+.band--flip .band__media{order:2}
+.band--flip .band__col{
+  padding-left:max(var(--gutter),calc((100vw - var(--shell))/2 + var(--gutter)));
+  padding-right:clamp(1.5rem,4vw,3.5rem);
+  margin-left:auto;
+}
+.band__col .muted+.muted{margin-top:1rem}
+.band__col .lede{margin-bottom:1.2rem}
+@media (max-width:820px){
+  .band{grid-template-columns:1fr}
+  .band--flip .band__media{order:0}
+  .band__media{min-height:58vw}
+  .band__col,.band--flip .band__col{padding-inline:var(--gutter);max-width:none}
+}
+
+.factlist{margin:1.8rem 0 0;display:grid;gap:1.2rem}
+.factlist dt{
+  font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.35rem;
+}
+.factlist dd{margin:0;color:var(--muted);line-height:1.7}
+.btn-row--tight{margin-top:.9rem}
+
+/* ---------- brand cards: logo and copy one side, photograph the other ---------- */
+.bcards{display:grid;gap:clamp(1.5rem,2.6vw,2.2rem)}
+.bcard{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:var(--surface);border:1px solid var(--border-soft);
+  overflow:hidden;transition:border-color .3s var(--ease);
+}
+.bcard:hover{border-color:var(--border)}
+.bcard__body{padding:clamp(1.8rem,3.4vw,3rem);display:flex;flex-direction:column;gap:1rem;justify-content:center}
+.bcard__logo{width:auto;object-fit:contain;object-position:left center;margin-bottom:.4rem}
+.bcard__logo--jc{height:52px}
+.bcard__logo--robata{height:112px}
+.bcard__body h3{font-size:clamp(1.5rem,2.4vw,2rem)}
+.bcard__body p{color:var(--muted);margin:0}
+.bcard__body .textlink{align-self:flex-start;margin-top:.4rem}
+.bcard__media{position:relative;min-height:clamp(260px,26vw,380px)}
+.bcard__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform .7s var(--ease)}
+.bcard:hover .bcard__media img{transform:scale(1.04)}
+@media (max-width:760px){
+  .bcard{grid-template-columns:1fr}
+  .bcard__media{order:-1;min-height:56vw}
+}
+
+/* ---------- values, with an icon and dividers ---------- */
+.values{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.value{border-top:0;padding:0 clamp(1.2rem,2.4vw,2.2rem);text-align:center}
+.value+.value{border-left:1px solid var(--border-soft)}
+.value__ico{width:34px;height:34px;color:var(--gold);margin:0 auto .9rem;display:block}
+.value h3{font-size:.78rem;font-family:var(--sans);font-weight:800;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ivory);margin-bottom:.7rem}
+.value p{color:var(--muted);margin:0;font-size:.95rem}
+@media (max-width:760px){
+  .value{padding-block:1.6rem}
+  .value+.value{border-left:0;border-top:1px solid var(--border-soft)}
+}
+
+/* ---------- back to top ---------- */
+.totop{
+  position:fixed;right:clamp(1rem,2.5vw,2rem);bottom:clamp(1rem,2.5vw,2rem);z-index:90;
+  width:48px;height:48px;display:grid;place-items:center;
+  background:#0b0b0be6;backdrop-filter:blur(10px);
+  border:1px solid var(--border);color:var(--gold-bright);
+  opacity:0;visibility:hidden;transform:translateY(10px);
+  transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s,background .3s;
+}
+.totop.is-on{opacity:1;visibility:visible;transform:none}
+.totop:hover,.totop:focus-visible{background:var(--gold);color:#0b0b0b;border-color:var(--gold)}
+.totop svg{width:20px;height:20px}
+
 /* ---------- hero ---------- */
 .hero{position:relative;isolation:isolate;overflow:hidden}
 .hero__media{position:absolute;inset:0;z-index:-2}
@@ -376,6 +512,23 @@ p:last-child{margin-bottom:0}
   margin-right:.85rem;background:var(--gold);transform:rotate(45deg)}
 
 /* ---------- menu ---------- */
+/* The switcher follows you down the page. Before this you had to scroll all the
+   way back to the top to move from breakfast to lunch. */
+.menubar{
+  position:sticky;top:var(--header-h);z-index:80;
+  background:#050505f2;backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border-soft);
+  padding-block:.85rem;
+  margin-bottom:clamp(2rem,4vw,3rem);
+}
+.menubar__inner{display:flex;flex-wrap:wrap;gap:.7rem 1.4rem;align-items:center;justify-content:center}
+@media (max-width:700px){
+  .menubar{padding-block:.6rem}
+  .menubar__inner{gap:.5rem}
+  .menubar .tabs--menu{gap:.4rem}
+  .menubar .tab{padding:.55rem .85rem;font-size:.64rem;letter-spacing:.1em}
+}
+
 .tabs{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center}
 .tabs--brand{gap:0;border:1px solid var(--border);padding:.35rem;width:max-content;max-width:100%;margin-inline:auto}
 .tab{
@@ -588,3 +741,13 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true]{b
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
 .reveal.is-in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+
+/* the menu panels sit under a sticky bar that already provides the top gap */
+.section--flush{padding-top:0}
+/* anchors and tab switches must clear both the header and the sticky menubar */
+:root{--sticky-h:calc(var(--header-h) + 64px)}
+.msec,.day{scroll-margin-top:var(--sticky-h)}
+
+/* line art: show the whole drawing rather than a crop of it */
+.band__media--contain{background:var(--background)}
+.band__media--contain img{object-fit:contain;padding:clamp(1.5rem,4vw,3rem)}
