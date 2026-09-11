@@ -751,3 +751,23 @@ input[aria-invalid=true],select[aria-invalid=true],textarea[aria-invalid=true]{b
 /* line art: show the whole drawing rather than a crop of it */
 .band__media--contain{background:var(--background)}
 .band__media--contain img{object-fit:contain;padding:clamp(1.5rem,4vw,3rem)}
+
+/* ---------- quote over a photograph ---------- */
+.quoteband{position:relative;isolation:isolate;padding-block:clamp(4rem,9vw,7rem);overflow:hidden}
+.quoteband__media{position:absolute;inset:0;z-index:-2}
+.quoteband__media img{width:100%;height:100%;object-fit:cover;opacity:.5}
+.quoteband::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(90deg,#050505f2 0%,#050505d9 55%,#05050599 100%);
+}
+.quote--over{background:transparent;border-left-width:3px}
+.quote--over p:last-child{max-width:46ch}
+
+.form-note--info{border-color:var(--border);background:#140f04;color:var(--muted)}
+.form-note--info a{color:var(--gold-bright);border-bottom:1px solid var(--border)}
+input[type=file]{padding:.7rem;font-size:.9rem;color:var(--muted)}
+input[type=file]::file-selector-button{
+  font:inherit;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--gold);color:var(--gold-bright);
+  padding:.5rem .9rem;margin-right:.9rem;cursor:pointer;
+}

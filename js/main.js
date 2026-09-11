@@ -262,7 +262,12 @@
       ok = fieldErr(form.elements.email,
             !v("email") ? "Please enter your email address."
             : EMAIL.test(v("email")) ? "" : "That email address does not look right.") && ok;
-      ok = fieldErr(form.elements.subject, v("subject") ? "" : "Please choose a subject.") && ok;
+      if (form.elements.subject) {
+        ok = fieldErr(form.elements.subject, v("subject") ? "" : "Please choose a subject.") && ok;
+      }
+      if (form.elements.position) {
+        ok = fieldErr(form.elements.position, v("position") ? "" : "Please choose a position.") && ok;
+      }
       ok = fieldErr(form.elements.message,
             v("message").length >= 10 ? "" : "Please tell us a little more (10 characters or more).") && ok;
       ok = fieldErr(form.elements.consent,
@@ -279,16 +284,24 @@
         if (bad) bad.focus();
         return;
       }
+      // the contact form and the careers application share this handler; the
+      // fields that only exist on one of them are appended when present
+      var topic = form.elements.subject || form.elements.position;
       var data = new FormData();
       data.append("access_key", form.dataset.key);
       data.append("from_name", form.dataset.fromName);
-      data.append("subject", form.dataset.subjectPrefix + " " + form.elements.subject.value);
+      data.append("subject", form.dataset.subjectPrefix + " " + topic.value);
       data.append("name", form.elements.fullName.value);
       data.append("email", form.elements.email.value);
       data.append("phone", form.elements.phone.value || "Not provided");
-      data.append("restaurant", form.elements.restaurant.selectedOptions[0].text);
+      if (form.elements.restaurant) {
+        data.append("restaurant", form.elements.restaurant.selectedOptions[0].text);
+      }
+      if (form.elements.position) data.append("position", form.elements.position.value);
       data.append("message", form.elements.message.value);
       data.append("botcheck", form.elements.botcheck.value);
+      var file = form.elements.attachment;
+      if (file && file.files && file.files.length) data.append("attachment", file.files[0]);
 
       submit.disabled = true;
       var label = submit.textContent;
@@ -307,14 +320,18 @@
         .then(function () { submit.disabled = false; submit.textContent = label; });
     });
 
-    // prefill the subject when arriving from a "reservation" link
-    var s = new URLSearchParams(location.search).get("subject");
-    if (s && form.elements.subject) {
-      var opt = Array.prototype.find.call(form.elements.subject.options, function (o) {
-        return o.value.toLowerCase().indexOf(s.toLowerCase()) === 0;
+    // prefill from the link that brought them here: ?subject= from a Reserve
+    // button, ?position= from an "Apply for this position" button
+    var q = new URLSearchParams(location.search);
+    function prefill(field, want) {
+      if (!field || !want) return;
+      var opt = Array.prototype.find.call(field.options, function (o) {
+        return o.value.toLowerCase().indexOf(want.toLowerCase()) === 0;
       });
-      if (opt) form.elements.subject.value = opt.value;
+      if (opt) field.value = opt.value;
     }
+    prefill(form.elements.subject, q.get("subject"));
+    prefill(form.elements.position, q.get("position"));
   })();
 
   /* ---------- year ---------- */
