@@ -268,8 +268,15 @@
       if (form.elements.position) {
         ok = fieldErr(form.elements.position, v("position") ? "" : "Please choose a position.") && ok;
       }
-      ok = fieldErr(form.elements.message,
-            v("message").length >= 10 ? "" : "Please tell us a little more (10 characters or more).") && ok;
+      // the opening list asks for a phone number and does not need an essay
+      if (form.elements.phone && form.elements.phone.required) {
+        ok = fieldErr(form.elements.phone,
+              v("phone").length >= 6 ? "" : "Please enter a phone number we can reach you on.") && ok;
+      }
+      if (form.elements.message && form.elements.message.required) {
+        ok = fieldErr(form.elements.message,
+              v("message").length >= 10 ? "" : "Please tell us a little more (10 characters or more).") && ok;
+      }
       ok = fieldErr(form.elements.consent,
             form.elements.consent.checked ? "" : "Please confirm we may reply to you.") && ok;
       return ok;
@@ -286,11 +293,15 @@
       }
       // the contact form and the careers application share this handler; the
       // fields that only exist on one of them are appended when present
-      var topic = form.elements.subject || form.elements.position;
+      // contact has a subject, careers has a position, the opening list has
+      // neither — so the topic is optional and the prefix stands alone
+      var topic = form.elements.subject || form.elements.position ||
+                  form.elements.restaurant;
       var data = new FormData();
       data.append("access_key", form.dataset.key);
       data.append("from_name", form.dataset.fromName);
-      data.append("subject", form.dataset.subjectPrefix + " " + topic.value);
+      data.append("subject", form.dataset.subjectPrefix +
+                  (topic && topic.value ? " — " + topic.value : ""));
       data.append("name", form.elements.fullName.value);
       data.append("email", form.elements.email.value);
       data.append("phone", form.elements.phone.value || "Not provided");
@@ -312,7 +323,8 @@
         .then(function (res) {
           if (!res.ok || !res.j.success) throw new Error(res.j.message || "Unable to send your message.");
           form.reset();
-          setNote("ok", "Thank you. Your message has been sent — we will be in touch shortly.");
+          setNote("ok", form.dataset.success ||
+            "Thank you. Your message has been sent — we will be in touch shortly.");
         })
         .catch(function (err) {
           setNote("err", err.message + " Please email " + form.dataset.email + " directly.");
@@ -332,6 +344,7 @@
     }
     prefill(form.elements.subject, q.get("subject"));
     prefill(form.elements.position, q.get("position"));
+    prefill(form.elements.restaurant, q.get("restaurant"));
   })();
 
   /* ---------- year ---------- */
